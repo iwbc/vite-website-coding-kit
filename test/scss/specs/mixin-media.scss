@@ -1,0 +1,268 @@
+@include test-module('mixin/_media.scss') {
+  @include test('mq-min') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-min('sm') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media (min-width: 480px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-min / mediatype') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-min('sm', 'print, screen') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media print, screen and (min-width: 480px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-min / print min width') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-min('md') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media print, screen and (min-width: 769px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-min / mediatype and print min width') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-min('md', 'all') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media (min-width: 769px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-max') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-max('sm') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media (max-width: 768px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-max / mediatype') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-max('sm', 'print, screen') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media print, screen and (max-width: 768px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-max / print min width') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-max('md') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media print, screen and (max-width: 1023px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-max / mediatype and print min width') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-max('md', 'all') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media (max-width: 1023px) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-res') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-res(2) {
+            background-image: url('image@2x.jpg');
+          }
+        }
+      }
+      @include expect {
+        @media screen and (min-resolution: 2dppx) {
+          .element {
+            background-image: url('image@2x.jpg');
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-res / mediatype') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-res(2, 'print, screen') {
+            background-image: url('image@2x.jpg');
+          }
+        }
+      }
+      @include expect {
+        @media print, screen and (min-resolution: 2dppx) {
+          .element {
+            background-image: url('image@2x.jpg');
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-ori / landscape') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-ori('ls') {
+            width: 100%;
+          }
+        }
+        .element2 {
+          @include mq-ori('landscape') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media screen and (orientation: landscape) {
+          .element {
+            width: 100%;
+          }
+        }
+        @media screen and (orientation: landscape) {
+          .element2 {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-ori / portrait') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-ori('pr') {
+            width: 100%;
+          }
+        }
+        .element2 {
+          @include mq-ori('portrait') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media screen and (orientation: portrait) {
+          .element {
+            width: 100%;
+          }
+        }
+        @media screen and (orientation: portrait) {
+          .element2 {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  @include test('mq-ori / mediatype') {
+    @include assert {
+      @include output {
+        .element {
+          @include mq-ori('ls', 'print, screen') {
+            width: 100%;
+          }
+        }
+      }
+      @include expect {
+        @media print, screen and (orientation: landscape) {
+          .element {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

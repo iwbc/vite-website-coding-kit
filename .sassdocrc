@@ -1,0 +1,12 @@
+sort:
+  - group<
+  - access<
+  - line<
+display:
+  access:
+    - public
+  alias: false
+  watermark: false
+privatePrefix: ^__
+noUpdateNotifier: true
+verbose: true

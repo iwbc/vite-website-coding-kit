@@ -1,0 +1,230 @@
+////
+/// @group 02. メディアクエリー
+////
+
+/// ブラウザ幅またはviewportの幅が、指定したブレークポイントの最小値以上の場合にのみ、スタイルを適用する<br>
+/// 指定したブレークポイントの最小値が0の場合は、すべてにスタイルを適用する
+///
+/// @param {string} $key
+///   ブレークポイント
+/// @param {string | null} $type [null]
+///   メディアタイプ
+///
+/// @example scss
+///   .element {
+///     @include mq-min("sm") {
+///       width: 100%;
+///     }
+///   }
+///
+///   .mediatype {
+///     @include mq-min("sm", "print, screen") {
+///       width: 100%;
+///     }
+///   }
+///
+///   .print-min-width {
+///     @include mq-min("md") {
+///       width: 100%;
+///     }
+///   }
+///
+///   // CSS Output
+///   @media (min-width: 480px) {
+///     .element {
+///       width: 100%;
+///     }
+///   }
+///
+///   @media print, screen and (min-width: 480px) {
+///     .mediatype {
+///       width: 100%;
+///     }
+///   }
+///
+///   @media print, screen and (min-width: 769px) {
+///     .print-min-width {
+///       width: 100%;
+///     }
+///   }
+
+@mixin mq-min($key, $type: null) {
+  $min: breakpoint-min($key);
+  @if $min {
+    @if $type and $type != 'all' and $type != '' {
+      @media #{$type} and (min-width: $min) {
+        @content;
+      }
+    } @else {
+      @if $min < $_print-min-width or $type == 'all' or $type == '' {
+        @media (min-width: $min) {
+          @content;
+        }
+      } @else {
+        @media print, screen and (min-width: $min) {
+          @content;
+        }
+      }
+    }
+  } @else {
+    @content;
+  }
+}
+
+/// ブラウザ幅またはviewportの幅が、指定したブレークポイントの最大値未満の場合にのみ、スタイルを適用する<br>
+/// 指定したブレークポイントの最大値がない場合、すべてにスタイルを適用する
+///
+/// @param {string} $key
+///   ブレークポイント
+/// @param {string | null} $type [null]
+///   メディアタイプ
+///
+/// @example scss
+///   .element {
+///     @include mq-max("sm") {
+///       width: 100%;
+///     }
+///   }
+///
+///   .mediatype {
+///     @include mq-max("md", "print, screen") {
+///       width: 100%;
+///     }
+///   }
+///
+///   .print-min-width {
+///     @include mq-max("md") {
+///       width: 100%;
+///     }
+///   }
+///
+///   // CSS Output
+///   @media (max-width: 767px) {
+///     .element {
+///       width: 100%;
+///     }
+///   }
+///
+///   @media print, screen and (max-width: 1023px) {
+///     .mediatype {
+///       width: 100%;
+///     }
+///   }
+///
+///   @media print, screen and (max-width: 1023px) {
+///     .print-min-width {
+///       width: 100%;
+///     }
+///   }
+
+@mixin mq-max($key, $type: null) {
+  $max: breakpoint-max($key);
+  @if $max {
+    @if $type and $type != 'all' and $type != '' {
+      @media #{$type} and (max-width: $max) {
+        @content;
+      }
+    } @else {
+      @if $max < $_print-min-width or $type == 'all' or $type == '' {
+        @media (max-width: $max) {
+          @content;
+        }
+      } @else {
+        @media print, screen and (max-width: $max) {
+          @content;
+        }
+      }
+    }
+  } @else {
+    @content;
+  }
+}
+
+/// デバイスピクセル比が指定値以上の場合にのみ、スタイルを適用する
+///
+/// @param {number} $x
+///   デバイスピクセル比
+/// @param {string} $type ["screen"]
+///   メディアタイプ
+///
+/// @example scss
+///   .element {
+///     @include mq-res(2) {
+///       background-image: url("image@2x.jpg");
+///     }
+///   }
+///
+///   // CSS Output
+///   @media screen and (min-resolution: 2dppx) {
+///     .element {
+///       background-image: url("image@2x.jpg");
+///     }
+///   }
+
+@mixin mq-res($x, $type: 'screen') {
+  @if $type and $type != 'all' and $type != '' {
+    @media #{$type} and (min-resolution: #{$x}dppx) {
+      @content;
+    }
+  } @else {
+    @media (min-resolution: #{$x}dppx) {
+      @content;
+    }
+  }
+}
+
+/// デバイスの向きが指定した向きと一致する場合にのみ、スタイルを適用する
+///
+/// @param {string} $orientation
+///   向き
+///   <table class="item__parameters">
+///     <thead>
+///       <tr>
+///         <th>値</th>
+///         <th>説明</th>
+///       </tr>
+///     </thead>
+///     <tbody>
+///       <tr>
+///         <td>`ls`または`landscape`</td>
+///         <td>デバイスが横向きのときにスタイルを適用する</td>
+///       </tr>
+///       <tr>
+///         <td>`pr`または`portrait`</td>
+///         <td>デバイスが縦向きのときにスタイルを適用する</td>
+///       </tr>
+///     </tbody>
+///   </table>
+/// @param {string} $type ["screen"]
+///   メディアタイプ
+///
+/// @example scss
+///   .element {
+///     @include mq-ori("ls") {
+///       width: 100%;
+///     }
+///   }
+///
+///   // CSS Output
+///   @media screen and (orientation: landscape) {
+///     .element {
+///       width: 100%;
+///     }
+///   }
+
+@mixin mq-ori($orientation, $type: 'screen') {
+  @if $orientation == 'ls' {
+    $orientation: landscape;
+  } @else if $orientation == 'pr' {
+    $orientation: portrait;
+  }
+  @if $type and $type != 'all' and $type != '' {
+    @media #{$type} and (orientation: $orientation) {
+      @content;
+    }
+  } @else {
+    @media (orientation: $orientation) {
+      @content;
+    }
+  }
+}

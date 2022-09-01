@@ -1,0 +1,57 @@
+@use 'sass:map';
+@use 'sass:math';
+
+////
+/// @group 99. ユーティリティ
+////
+
+/// 指定した色名のカラーコードを取得する
+///
+/// @param {string} $key
+///   $_colors変数のキー（色名）
+///
+/// @return {color}
+///
+/// @example scss
+///   $_colors: ("black": #000, "white": #fff);
+///   @debug c("black"); // #000
+
+@function c($key) {
+  @return map.get($_colors, $key);
+}
+
+/// 指定した名前のz-index値を取得する
+///
+/// @param {string} $key
+///   $_z-indexes変数のキー
+/// @param {number} $index
+///   加減算値
+///
+/// @return {color}
+///
+/// @example scss
+///   $_z-indexes: ("header": 1000, "overlay": 10000);
+///   @debug z("header", 1); // 1001
+
+@function z($key, $index: 0) {
+  @return map.get($_z-indexes, $key) + $index;
+}
+
+/// 絶対単位の値から相対単位の値に変換する
+///
+/// @param {number} $abs - 変換対象値 (単位は省略可)
+/// @param {number} $basis - 変換基準値 (単位は省略可)
+/// @param {boolean} $percentage [false] - 百分率の形式（%の単位なし）で返す場合はtrueを指定する
+///
+/// @return {number}
+///
+/// @example scss
+///   @debug absolute-to-relative(10, 100) * 1em; // .1em
+///   @debug absolute-to-relative(10, 100, true); // 10
+
+@function absolute-to-relative($abs, $basis, $percentage: false) {
+  $abs: strip-unit($abs);
+  $basis: strip-unit($basis);
+  $relative: math.div($abs, $basis);
+  @return if($percentage, $relative * 100, $relative);
+}

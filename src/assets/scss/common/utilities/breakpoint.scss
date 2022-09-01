@@ -1,0 +1,44 @@
+@use 'sass:list';
+
+@each $key, $breakpoint in $_breakpoints {
+  $blocks: block inline inline-block;
+
+  .u_bp-hide-#{$key} {
+    @include mq-min($key) {
+      @include mq-max($key) {
+        display: none !important;
+      }
+    }
+  }
+  .u_bp-hide-lte-#{$key} {
+    @include mq-max($key) {
+      display: none !important;
+    }
+  }
+  .u_bp-hide-gte-#{$key} {
+    @include mq-min($key) {
+      display: none !important;
+    }
+  }
+
+  @each $block in $blocks {
+    $key-block: #{$key}-#{$block};
+    .u_bp-show-#{$key-block} {
+      @include mq-min($key) {
+        @include mq-max($key) {
+          display: $block !important;
+        }
+      }
+    }
+    .u_bp-show-lte-#{$key-block} {
+      @include mq-max($key) {
+        display: $block !important;
+      }
+    }
+    .u_bp-show-gte-#{$key-block} {
+      @include mq-min($key) {
+        display: $block !important;
+      }
+    }
+  }
+}
