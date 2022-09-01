@@ -1,0 +1,50 @@
+@use 'sass:list';
+@use 'sass:map';
+
+////
+/// @group 51. マップ
+////
+
+/// マップから、指定したキーの次の要素のキーを取得する<br>
+/// 指定したキーが、マップの最後の要素である場合は、`null`を返す
+///
+/// @param {map} $map
+///   操作対象のマップ
+/// @param {string} $key
+///   取得対象要素の前の要素のキー
+///
+/// @return {string | null}
+///   取得対象要素のキー、または`null`
+///
+/// @example scss
+///   $map: ("A": 1, "B": 2, "C": 3);
+///   @debug map-get-next-key("B", $map); // C
+///   @debug map-get-next-key("C", $map); // null
+
+@function map-get-next-key($map, $key) {
+  $keys: map.keys($map);
+  $index: list.index($keys, $key);
+  @return if($index < list.length($keys), list.nth($keys, $index + 1), null);
+}
+
+/// マップから、指定したキーの前の要素のキーを取得する<br>
+/// 指定したキーが、マップの最初の要素である場合は、`null`を返す
+///
+/// @param {map} $map
+///   操作対象のマップ
+/// @param {string} $key
+///   取得対象要素の次の要素のキー
+///
+/// @return {string | null}
+///   取得対象要素のキー、または`null`
+///
+/// @example scss
+///   $map: ("A": 1, "B": 2, "C": 3);
+///   @debug map-get-prev-key("B", $map); // "A"
+///   @debug map-get-prev-key("A", $map); // null
+
+@function map-get-prev-key($map, $key) {
+  $keys: map.keys($map);
+  $index: list.index($keys, $key);
+  @return if($index > 1, list.nth($keys, $index - 1), null);
+}

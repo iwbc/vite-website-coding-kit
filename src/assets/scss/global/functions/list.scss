@@ -1,0 +1,190 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+@use 'sass:meta';
+
+////
+/// @group 50. リスト
+////
+
+/// リストの最初の値を取得する
+///
+/// @param {list} $list
+///   取得対象のリスト
+///
+/// @return {*}
+///   リストの最初の値
+///
+/// @example scss
+///   $list: ("A" "B" "C");
+///   @debug first($list); // "A"
+
+@function first($list) {
+  @return list.nth($list, 1);
+}
+
+/// リストの最後の値を取得する
+///
+/// @param {list} $list
+///   取得対象のリスト
+///
+/// @return {*}
+///   リストの最後の値
+///
+/// @example scss
+///   $list: ("A" "B" "C");
+///   @debug last($list); // "C"
+
+@function last($list) {
+  @return list.nth($list, list.length($list));
+}
+
+/// リストの先頭に値を追加する
+///
+/// @param {list} $list
+///   追加対象のリスト
+/// @param {*} $value
+///   追加する値
+///
+/// @return {list}
+///   追加後のリスト
+///
+/// @example scss
+///   $list: ("A" "B" "C");
+///   @debug prepend($list, "Z"); // ("Z" "A" "B" "C")
+
+@function prepend($list, $value) {
+  $result: ();
+  $result: list.append($result, $value);
+  @return list.join($result, $list);
+}
+
+/// リストの最初の値を削除する
+///
+/// @param {list} $list
+///   削除対象のリスト
+///
+/// @return {list}
+///   削除後のリスト
+///
+/// @example scss
+///   $list: ("A" "B" "C");
+///   @debug shift($list); // ("B" "C")
+
+@function shift($list) {
+  $result: ();
+  @for $i from 2 through list.length($list) {
+    $result: list.append($result, list.nth($list, $i));
+  }
+  @return $result;
+}
+
+/// リストの最後の値を削除する
+///
+/// @param {list} $list
+///   削除対象のリスト
+///
+/// @return {list}
+///   削除後のリスト
+///
+/// @example scss
+///   $list: ("A" "B" "C");
+///   @debug pop($list); // ("A" "B")
+
+@function pop($list) {
+  $result: ();
+  @for $i from 1 through list.length($list) - 1 {
+    $result: list.append($result, list.nth($list, $i));
+  }
+  @return $result;
+}
+
+/// 文字列を分割し、リストで返す
+///
+/// @param {string} $string
+///   分割対象の文字列
+/// @param {string} $separator
+///   区切り文字
+///
+/// @return {list}
+///
+/// @example scss
+///   @debug explode("2000-01-01", "-"); // ("2000" "01" "01")
+
+@function explode($string, $separator) {
+  $list: ();
+  $sum: string.length($string);
+
+  @for $i from 1 through $sum {
+    $str: string.index($string, $separator);
+
+    @if string.length($string) >= 1 and not $str {
+      $list: list.append($list, $string);
+      $string: '';
+    }
+
+    @if meta.type-of($str) == 'number' {
+      $each: string.slice($string, 0, ($str - 1));
+      $list: list.append($list, $each);
+      $string: string.slice($string, ($str + 1), $sum);
+    }
+  }
+
+  @return $list;
+}
+
+/// リストに指定した値が含まれているか確認する
+///
+/// @param {list} $list
+///   検索対象のリスト
+/// @param {string | number | color | list} $values
+///   検索条件
+/// @param {string} $operation [AND]
+///   `$values`にリストを渡した場合の動作設定
+///   <table class="item__parameters">
+///     <thead>
+///       <tr>
+///         <th>値</th>
+///         <th>説明</th>
+///       </tr>
+///     </thead>
+///     <tbody>
+///       <tr>
+///         <td>`AND`</td>
+///         <td>`$values`の全てが`$list`に含まれる場合に`true`を返す</td>
+///       </tr>
+///       <tr>
+///         <td>`OR`</td>
+///         <td>`$values`のいずれかが`$list`に含まれる場合に`true`を返す</td>
+///       </tr>
+///     </tbody>
+///   </table>
+///
+/// @return {boolean}
+///
+/// @example scss
+///   $list: ("A" "B" "C");
+///   @debug has($list, "A"); // true
+///   @debug has($list, ("A" "B")); // true
+///   @debug has($list, ("A" "Z")); // false
+///   @debug has($list, ("A" "Z"), "OR"); // true
+///   @debug has($list, ("Y" "Z"), "OR"); // false
+
+@function has($list, $values, $operation: 'AND') {
+  $operation: string.to-upper-case($operation);
+  @if ($operation == 'AND') {
+    @each $value in $values {
+      @if not list.index($list, $value) {
+        @return false;
+      }
+    }
+    @return true;
+  } @else if ($operation == 'OR') {
+    @each $value in $values {
+      @if list.index($list, $value) {
+        @return true;
+      }
+    }
+    @return false;
+  }
+}

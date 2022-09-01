@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/assets/vendors/sanitize.css" />
+    <link rel="stylesheet" href="/assets/scss/common.scss" />
+    <style>
+      body {
+        padding: 20px;
+      }
+      dt {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div>{{> header}}</div>
+
+    <h2>Partials</h2>
+    <p>
+      <a href="https://handlebarsjs.com/guide/partials.html" target="_blank"
+        >https://handlebarsjs.com/guide/partials.html</a
+      >
+    </p>
+    <div>
+      <h3>Block</h3>
+      {{#> block}}
+      <p>Block Content</p>
+      {{/block}}
+    </div>
+
+    <div>
+      <h3>Block with Scope</h3>
+      {{#> block-with-scope}} {{#*inline 'scope-a'}}
+      <p>Scope A Content</p>
+      {{/inline}} {{#*inline 'scope-b'}}
+      <p>Scope B Content</p>
+      {{/inline}} {{/block-with-scope}}
+    </div>
+
+    <h2>Environment</h2>
+    <p>
+      .envに記述した「VITE_」から始まる環境変数とViteの動作モードが使用可能。<br />
+      <a href="https://ja.vitejs.dev/guide/env-and-mode.html#env-files" target="_blank"
+        >https://ja.vitejs.dev/guide/env-and-mode.html#env-files</a
+      >
+    </p>
+    <dl>
+      <dt>env.MODE</dt>
+      <dd>{{env.MODE}}</dd>
+    </dl>
+
+    <h2>Context</h2>
+    <p>
+      handlebars.context.jsに記述した変数が使用可能。<br />
+      キーをパスにした場合、そのパスのファイルでのみ使用可。
+    </p>
+    <dl>
+      <dt>context.globalVarName</dt>
+      <dd>{{context.globalVarName}}</dd>
+      <dt>context.varName</dt>
+      <dd>{{context.varName}}</dd>
+    </dl>
+
+    <h3>Custom Helpers</h3>
+    <dl>
+      <dt>指定回数繰り返し</dt>
+      <dd>
+        {{#times 3}}
+        <div>{{this}}</div>
+        {{/times}}
+      </dd>
+    </dl>
+
+    <script type="module" src="/assets/js/main.js"></script>
+  </body>
+</html>

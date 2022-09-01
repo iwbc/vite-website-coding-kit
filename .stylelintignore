@@ -1,0 +1,6 @@
+node_modules
+docs/
+dist/
+src/public/
+src/assets/vendors/
+src/assets/scss/common/vendors/

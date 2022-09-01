@@ -1,0 +1,59 @@
+:root {
+  --color-text: #{c('text')};
+  --color-link: #{c('text-link')};
+  font-size: $_font-size;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $_font-family;
+  line-height: $_line-height;
+  color: var(--color-text);
+}
+
+figure {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+figcaption {
+  &:not(:first-child) {
+    margin-top: 0.5em;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+  -ms-backface-visibility: visible;
+  backface-visibility: hidden; // for IE11 transition bug
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  touch-action: manipulation;
+  img {
+    transition: opacity $_transition-duration;
+  }
+  &:hover {
+    color: var(--color-link);
+    text-decoration: underline;
+    img {
+      opacity: $_opacity;
+    }
+  }
+  &:visited {
+    color: var(--color-link);
+  }
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  touch-action: manipulation;
+}
