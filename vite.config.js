@@ -7,6 +7,8 @@ import { defineConfig } from 'vite';
 import handlebars from 'vite-plugin-handlebars';
 import ViteRestart from 'vite-plugin-restart';
 
+import svgSprite from './vite-plugin-svg-sprite';
+
 const HBS_VARS = {
   '/index.html': {
     content: 'example',
@@ -46,6 +48,10 @@ export default defineConfig({
     },
   },
   plugins: [
+    svgSprite({
+      inputDirs: ['src/assets/sprites/icons'],
+      outputDir: 'dist/assets/sprites',
+    }),
     globInput({
       patterns: ['src/**/*.html', '!src/partials/**/*.html'],
     }),
@@ -60,15 +66,19 @@ export default defineConfig({
         svgo: {
           plugins: [
             {
-              name: 'collapseGroups',
-              active: false,
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  collapseGroups: false,
+                },
+              },
             },
           ],
         },
       },
     }),
     handlebars({
-      partialDirectory: resolve(__dirname, './src' + '/partials'),
+      partialDirectory: resolve(__dirname, './src/partials'),
       context(pagePath) {
         return HBS_VARS[pagePath];
       },
