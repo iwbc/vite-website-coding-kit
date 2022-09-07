@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@macropygia/vite-plugin-glob-input": "^0.0.15",
+    "@macropygia/vite-plugin-imagemin-cache": "^0.1.1",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",

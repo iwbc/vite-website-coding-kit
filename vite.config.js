@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 
-import vitePluginGlobInput from '@macropygia/vite-plugin-glob-input';
+import globInput from '@macropygia/vite-plugin-glob-input';
+import imagemin from '@macropygia/vite-plugin-imagemin-cache';
 import autoprefixer from 'autoprefixer';
 import { defineConfig } from 'vite';
 import handlebars from 'vite-plugin-handlebars';
@@ -13,14 +14,14 @@ const HBS_VARS = {
 };
 
 export default defineConfig({
-  root: './src',
+  root: resolve(__dirname, './src'),
   base: './',
   server: {
     host: true,
     port: 3000,
   },
   build: {
-    outDir: '../dist',
+    outDir: resolve(__dirname, './dist'),
     emptyOutDir: true,
     rollupOptions: {
       output: {
@@ -29,16 +30,13 @@ export default defineConfig({
           if (/webp|png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
             extType = 'images';
           }
+          if (extType === 'css') {
+            return 'assets/css/[name]-[hash].css';
+          }
           return `assets/${extType}/[name][extname]`;
         },
-        chunkFileNames: (chunkInfo) => {
-          const name = chunkInfo.name.replace(/^src\//, '');
-          return `assets/js/${name}-[hash].js`;
-        },
-        entryFileNames: (chunkInfo) => {
-          const name = chunkInfo.name.replace(/^src\//, '');
-          return `assets/js/${name}-[hash].js`;
-        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
       },
     },
   },
@@ -48,15 +46,33 @@ export default defineConfig({
     },
   },
   plugins: [
-    vitePluginGlobInput({
+    globInput({
       patterns: ['src/**/*.html', '!src/partials/**/*.html'],
     }),
-    ViteRestart.default({ restart: ['../vite.config.js'] }),
+    imagemin({
+      public: {
+        preventDefault: true,
+      },
+      plugins: {
+        mozjpeg: {
+          quality: 85,
+        },
+        svgo: {
+          plugins: [
+            {
+              name: 'collapseGroups',
+              active: false,
+            },
+          ],
+        },
+      },
+    }),
     handlebars({
       partialDirectory: resolve(__dirname, './src' + '/partials'),
       context(pagePath) {
         return HBS_VARS[pagePath];
       },
     }),
+    ViteRestart.default({ restart: ['../vite.config.js'] }),
   ],
 });
