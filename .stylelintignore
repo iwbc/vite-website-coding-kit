@@ -2,3 +2,4 @@ node_modules
 docs/
 dist/
 src/assets/vendors/
+src/assets/scss/common/vendors/

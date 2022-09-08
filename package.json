@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "yarn lint:style",
+    "lint": "yarn lint:script && lint:style",
+    "lint:fix": "yarn lint:script --fix && lint:style --fix",
+    "lint:script": "eslint --ext .js .",
     "lint:style": "stylelint \"**/*.{scss,css}\"",
     "test": "jest",
     "sassdoc": "sassdoc src/assets/scss -d docs/scss"

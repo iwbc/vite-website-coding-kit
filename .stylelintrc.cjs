@@ -3,5 +3,6 @@ module.exports = {
   customSyntax: 'postcss-scss',
   rules: {
     'no-descending-specificity': null,
+    'no-empty-source': null,
   },
 };
