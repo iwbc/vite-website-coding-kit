@@ -228,3 +228,27 @@
     }
   }
 }
+
+/// hoverが利用できるデバイスかつマウスなど正確なポインターデバイスがある場合のみ、スタイルを適用する
+///
+/// @example scss
+///   a {
+///     @include mq-hover {
+///       &:hover {
+///         text-decoration: underline;
+///       }
+///     }
+///   }
+///
+///   // CSS Output
+///   @media (hover: hover) and (pointer: fine) {
+///     a:hover {
+///       text-decoration: underline;
+///     }
+///   }
+
+@mixin mq-hover {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}

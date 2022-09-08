@@ -2,6 +2,30 @@
 /// @group 99. ユーティリティ
 ////
 
+/// hoverが利用できるデバイスかつマウスなど正確なポインターデバイスがある場合のみ適用されるhoverスタイル
+///
+/// @example scss
+///   a {
+///     @include hover {
+///       text-decoration: underline;
+///     }
+///   }
+///
+///   // CSS Output
+///   @media (hover: hover) and (pointer: fine) {
+///     a:hover {
+///       text-decoration: underline;
+///     }
+///   }
+
+@mixin hover {
+  @include mq-hover {
+    &:hover {
+      @content;
+    }
+  }
+}
+
 /// 複数行の文章を指定行数まで省略する
 ///
 /// @param {number} $lines
