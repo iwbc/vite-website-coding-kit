@@ -1,4 +1,6 @@
 :root {
+  --color-text: #{c('text')};
+  --color-link: #{c('text-link')};
   font-size: $_font-size;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -7,7 +9,7 @@
 body {
   font-family: $_font-family;
   line-height: $_line-height;
-  color: $_text-color;
+  color: var(--color-text);
 }
 
 figure {
@@ -30,20 +32,20 @@ img {
 }
 
 a {
-  color: $_text-link-color;
+  color: var(--color-link);
   text-decoration: none;
   img {
     transition: opacity $_transition-duration;
   }
   &:hover {
-    color: $_text-link-hover-color;
+    color: var(--color-link);
     text-decoration: underline;
     img {
       opacity: $_opacity;
     }
   }
   &:visited {
-    color: $_text-link-visited-color;
+    color: var(--color-link);
   }
 }
 

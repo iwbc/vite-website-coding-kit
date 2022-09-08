@@ -8,49 +8,35 @@
  * Foundation
  */
 
-@import './common/foundations/tag';
 @import './common/vendors/sanitize';
+@import './common/foundations';
 
 /**
  * Layout
  */
 
-// @import './common/layouts/';
+@import './common/layouts';
 
 /**
  * Object / Module
  */
 
-// @import './common/objects/modules/';
+@import './common/objects/modules';
 
 /**
  * Object / Component
  */
 
-// @import './common/objects/components/';
+@import './common/objects/components';
 
 /**
  * Object / Package
  */
 
-// @import './common/objects/packages/';
+@import './common/objects/packages';
 
 /**
  * Utility
  */
 
-@import './common/utilities/background';
-@import './common/utilities/breakpoint';
-@import './common/utilities/clearfix';
-@import './common/utilities/display';
-@import './common/utilities/filp';
-@import './common/utilities/font-weight';
-@import './common/utilities/letter-spacing';
-@import './common/utilities/margin';
-@import './common/utilities/padding';
-@import './common/utilities/position';
-@import './common/utilities/screen-reader';
-@import './common/utilities/text';
-@import './common/utilities/vertical-align';
-@import './common/utilities/visibility';
-@import './common/utilities/wrap';
+@import './common/utilities';
