@@ -81,6 +81,9 @@ export default defineConfig(({ mode }) => {
             ],
           },
         },
+        asset: {
+          useCrc: true,
+        },
       }),
       handlebars({
         partialDirectory: path.resolve(__dirname, './src/partials'),
