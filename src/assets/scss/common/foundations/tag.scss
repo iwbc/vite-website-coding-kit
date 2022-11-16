@@ -1,6 +1,7 @@
 :root {
-  --color-text: #{c('text')};
-  --color-link: #{c('text-link')};
+  @each $key, $value in $_colors {
+    --color-#{$key}: #{$value};
+  }
   font-size: $_font-size;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -24,29 +25,27 @@ figcaption {
 }
 
 img {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   vertical-align: middle;
-  -ms-backface-visibility: visible;
-  backface-visibility: hidden; // for IE11 transition bug
 }
 
 a {
-  color: var(--color-link);
+  color: var(--color-text-link);
   text-decoration: none;
   touch-action: manipulation;
   img {
     transition: opacity $_transition-duration;
   }
-  &:hover {
-    color: var(--color-link);
+  @include hover {
+    color: var(--color-text-link);
     text-decoration: underline;
     img {
       opacity: $_opacity;
     }
   }
   &:visited {
-    color: var(--color-link);
+    color: var(--color-text-link);
   }
 }
 
