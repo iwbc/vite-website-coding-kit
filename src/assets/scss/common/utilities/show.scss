@@ -1,0 +1,24 @@
+@each $key, $breakpoint in $_breakpoints {
+  $blocks: block inline inline-block;
+
+  @each $block in $blocks {
+    $key-block: #{$key}-#{$block};
+    .u_show-#{$key-block} {
+      @include mq-min($key) {
+        @include mq-max($key) {
+          display: $block !important;
+        }
+      }
+    }
+    .u_show-lte-#{$key-block} {
+      @include mq-max($key) {
+        display: $block !important;
+      }
+    }
+    .u_show-gte-#{$key-block} {
+      @include mq-min($key) {
+        display: $block !important;
+      }
+    }
+  }
+}

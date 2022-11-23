@@ -1,0 +1,19 @@
+@each $key, $breakpoint in $_breakpoints {
+  .u_hide-#{$key} {
+    @include mq-min($key) {
+      @include mq-max($key) {
+        display: none !important;
+      }
+    }
+  }
+  .u_hide-lte-#{$key} {
+    @include mq-max($key) {
+      display: none !important;
+    }
+  }
+  .u_hide-gte-#{$key} {
+    @include mq-min($key) {
+      display: none !important;
+    }
+  }
+}

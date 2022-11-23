@@ -1,0 +1,35 @@
+.u_br {
+  &::after {
+    white-space: pre;
+    content: '\A';
+  }
+}
+
+@each $key, $breakpoint in $_breakpoints {
+  .u_br-#{$key} {
+    @include mq-min($key) {
+      @include mq-max($key) {
+        &::after {
+          white-space: pre;
+          content: '\A';
+        }
+      }
+    }
+  }
+  .u_br-lte-#{$key} {
+    @include mq-max($key) {
+      &::after {
+        white-space: pre;
+        content: '\A';
+      }
+    }
+  }
+  .u_br-gte-#{$key} {
+    @include mq-min($key) {
+      &::after {
+        white-space: pre;
+        content: '\A';
+      }
+    }
+  }
+}
