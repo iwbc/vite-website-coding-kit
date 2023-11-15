@@ -6,6 +6,7 @@ import autoprefixer from 'autoprefixer';
 import { defineConfig, loadEnv } from 'vite';
 import handlebars from 'vite-plugin-handlebars';
 import ViteRestart from 'vite-plugin-restart';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 import handlebarsContext from './handlebars.context';
 import svgSprite from './vite/vite-plugin-svg-sprite';
@@ -43,13 +44,8 @@ export default defineConfig(({ mode }) => {
         plugins: [autoprefixer],
       },
     },
-    resolve: {
-      alias: [
-        { find: '@/', replacement: path.join(__dirname, 'src/') },
-        { find: '@@/', replacement: path.join(__dirname, './') },
-      ],
-    },
     plugins: [
+      tsconfigPaths(),
       svgSprite({
         inputDir: 'src/assets/sprites',
         outputDir: 'dist/assets/sprites',
